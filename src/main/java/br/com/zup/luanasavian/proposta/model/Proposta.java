@@ -40,4 +40,5 @@ public class Proposta {
     public Long getId() {
         return id;
     }
+
 }
