@@ -2,7 +2,6 @@ package br.com.zup.luanasavian.proposta.request;
 
 import br.com.zup.luanasavian.proposta.model.Proposta;
 import br.com.zup.luanasavian.proposta.validation.CpfOrCnpj;
-import br.com.zup.luanasavian.proposta.validation.UniqueValue;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +16,6 @@ public class PropostaFormRequest {
     private String documento;
     @NotBlank
     @Email
-    @UniqueValue(domainClass = Proposta.class, fieldName = "email")
     private String email;
     @NotBlank
     private String nome;
@@ -37,5 +35,9 @@ public class PropostaFormRequest {
 
     public Proposta toModel() {
         return new Proposta(documento, email, nome, endereco, salario);
+    }
+
+    public String getDocumento() {
+        return documento;
     }
 }
