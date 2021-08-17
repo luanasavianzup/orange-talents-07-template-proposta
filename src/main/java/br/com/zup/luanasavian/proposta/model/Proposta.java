@@ -1,5 +1,8 @@
 package br.com.zup.luanasavian.proposta.model;
 
+import br.com.zup.luanasavian.proposta.compartilhada.DevolutivaAnalise;
+import br.com.zup.luanasavian.proposta.compartilhada.StatusProposta;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +27,8 @@ public class Proposta {
     @NotNull
     @Positive
     private BigDecimal salario;
+    @Enumerated(EnumType.STRING)
+    private StatusProposta status;
 
     @Deprecated
     public Proposta() {
@@ -41,4 +46,31 @@ public class Proposta {
         return id;
     }
 
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public StatusProposta getStatus() {
+        return status;
+    }
+
+    public void novoEstado(DevolutivaAnalise devolutivaAnalise) {
+        this.status = devolutivaAnalise.getResultado();
+    }
 }

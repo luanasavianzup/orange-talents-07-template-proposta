@@ -1,8 +1,12 @@
 package br.com.zup.luanasavian.proposta.controller;
 
+import br.com.zup.luanasavian.proposta.compartilhada.AnalisePropostaService;
+import br.com.zup.luanasavian.proposta.model.AnaliseProposta;
 import br.com.zup.luanasavian.proposta.model.Proposta;
 import br.com.zup.luanasavian.proposta.repository.PropostaRepository;
+import br.com.zup.luanasavian.proposta.request.AnalisePropostaFormRequest;
 import br.com.zup.luanasavian.proposta.request.PropostaFormRequest;
+import br.com.zup.luanasavian.proposta.response.AnalisePropostaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,8 @@ public class PropostaController {
 
     @Autowired
     private PropostaRepository propostaRepository;
+    @Autowired
+    private AnalisePropostaService analisePropostaService;
 
     @PostMapping
     @Transactional
@@ -32,6 +38,10 @@ public class PropostaController {
 
         Proposta proposta = form.toModel();
         propostaRepository.save(proposta);
+
+        AnalisePropostaFormRequest request = new AnalisePropostaFormRequest(proposta.getDocumento(), proposta.getNome(), proposta.getId().toString());
+        AnaliseProposta analise = analisePropostaService.analiseCredito(request);
+        proposta.novoEstado(analise.getDevolutivaAnalise());
 
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
