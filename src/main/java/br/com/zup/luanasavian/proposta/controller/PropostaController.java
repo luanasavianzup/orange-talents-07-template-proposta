@@ -1,6 +1,7 @@
 package br.com.zup.luanasavian.proposta.controller;
 
 import br.com.zup.luanasavian.proposta.compartilhada.AnalisePropostaService;
+import br.com.zup.luanasavian.proposta.compartilhada.DevolutivaAnalise;
 import br.com.zup.luanasavian.proposta.model.AnaliseProposta;
 import br.com.zup.luanasavian.proposta.model.Proposta;
 import br.com.zup.luanasavian.proposta.repository.PropostaRepository;
@@ -39,9 +40,8 @@ public class PropostaController {
         Proposta proposta = form.toModel();
         propostaRepository.save(proposta);
 
-        AnalisePropostaFormRequest request = new AnalisePropostaFormRequest(proposta.getDocumento(), proposta.getNome(), proposta.getId().toString());
-        AnaliseProposta analise = analisePropostaService.analiseCredito(request);
-        proposta.novoEstado(analise.getDevolutivaAnalise());
+        DevolutivaAnalise devolutiva = analisePropostaService.avalia(proposta);
+        proposta.novoEstado(devolutiva);
 
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
