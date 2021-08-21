@@ -2,19 +2,14 @@ package br.com.zup.luanasavian.proposta.controller;
 
 import br.com.zup.luanasavian.proposta.compartilhada.AnalisePropostaService;
 import br.com.zup.luanasavian.proposta.compartilhada.DevolutivaAnalise;
-import br.com.zup.luanasavian.proposta.model.AnaliseProposta;
 import br.com.zup.luanasavian.proposta.model.Proposta;
 import br.com.zup.luanasavian.proposta.repository.PropostaRepository;
-import br.com.zup.luanasavian.proposta.request.AnalisePropostaFormRequest;
 import br.com.zup.luanasavian.proposta.request.PropostaFormRequest;
-import br.com.zup.luanasavian.proposta.response.AnalisePropostaResponse;
+import br.com.zup.luanasavian.proposta.response.AcompanhamentoPropostaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -46,6 +41,19 @@ public class PropostaController {
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AcompanhamentoPropostaResponse> get(@PathVariable Long id){
+        Optional<Proposta> proposta = propostaRepository.findById(id);
+
+        if(proposta.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        AcompanhamentoPropostaResponse response = new AcompanhamentoPropostaResponse(proposta.get().getStatus());
+
+        return ResponseEntity.ok(response);
     }
 
 }

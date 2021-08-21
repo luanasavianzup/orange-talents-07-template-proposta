@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class CartaoResponse {
 
     private String id;
-    private LocalDateTime emitidoEm = LocalDateTime.now();
+    private LocalDateTime emitidoEm;
     private String titular;
     private Integer limite;
     private VencimentoResponse vencimento;

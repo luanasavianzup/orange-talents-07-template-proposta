@@ -28,7 +28,7 @@ public class AnaliseFinanceira {
     Logger log = LoggerFactory.getLogger(AnaliseFinanceira.class);
 
     @Scheduled(fixedDelay = 60000)
-    public void vinculaCartoesAsPropostas() {
+    public void vinculaCartaoAProposta() {
         List<Proposta> propostas = propostaRepository.findAllByStatus(StatusProposta.ELEGIVEL);
         propostas.forEach(proposta -> {
             try {

@@ -71,6 +71,9 @@ public class Proposta {
     public StatusProposta getStatus() {
         return status;
     }
+    public Cartao getCartao() {
+        return cartao;
+    }
 
     public void novoEstado(DevolutivaAnalise devolutivaAnalise) {
         this.status = devolutivaAnalise.getResultado();
