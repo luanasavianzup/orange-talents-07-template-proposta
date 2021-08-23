@@ -79,8 +79,7 @@ public class Proposta {
         this.status = devolutivaAnalise.getResultado();
     }
 
-    public void adicionaCartao(Cartao cartao) {
-        this.cartao = cartao;
+    public void adicionaCartao() {
         this.status = StatusProposta.CARTAO_APROVADO;
     }
 }

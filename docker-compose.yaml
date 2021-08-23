@@ -29,8 +29,8 @@ services:
     ports:
       - 5433:5432
     environment:
-      POSTGRES_USER: propostas
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
       POSTGRES_DB: propostas
 
   postgres:
@@ -144,6 +144,21 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_TOKEN: ee413645-dbe8-4848-afc6-6bb2768ada75
       VAULT_ADDR: http://127.0.0.1:8200
+
+  desafio-proposta:
+    build: ./
+    image: luana/proposta
+    ports:
+      - 8081:8080
+    environment:
+      AVALIACAO_FINANCEIRA_API_URL: http://analise:9999
+      CONSULTA_CARTAO_API_URL: http://contas:8888
+      URL_DATABASE: jdbc:postgresql://postgres-propostas:5433/proposta
+      DB_USER: root
+      DB_PASSWORD: root
+    depends_on:
+      - postgres-propostas
+
 
 volumes:
   grafana-volume:

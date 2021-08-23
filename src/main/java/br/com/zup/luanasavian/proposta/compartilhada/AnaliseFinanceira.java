@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -28,6 +29,7 @@ public class AnaliseFinanceira {
     Logger log = LoggerFactory.getLogger(AnaliseFinanceira.class);
 
     @Scheduled(fixedDelay = 60000)
+    @Transactional
     public void vinculaCartaoAProposta() {
         List<Proposta> propostas = propostaRepository.findAllByStatus(StatusProposta.ELEGIVEL);
         propostas.forEach(proposta -> {
@@ -35,6 +37,7 @@ public class AnaliseFinanceira {
                 CartaoResponse response = cartaoClient.consultaCartao(proposta.getId().toString());
                 Cartao cartao = response.toModel(proposta);
                 cartaoRepository.save(cartao);
+                proposta.adicionaCartao();
                 log.info("Vinculação concluída. Proposta: " + proposta.getId());
             } catch (FeignException ex) {
                 log.error("Erro de vinculação do cartão. Proposta: " + proposta.getId());
