@@ -147,13 +147,14 @@ services:
 
   desafio-proposta:
     build: ./
+    restart: always
     image: luana/proposta
     ports:
       - 8081:8080
     environment:
       AVALIACAO_FINANCEIRA_API_URL: http://analise:9999
       CONSULTA_CARTAO_API_URL: http://contas:8888
-      URL_DATABASE: jdbc:postgresql://postgres-propostas:5433/proposta
+      URL_DATABASE: jdbc:postgresql://postgres-propostas:5432/propostas
       DB_USER: root
       DB_PASSWORD: root
     depends_on:
