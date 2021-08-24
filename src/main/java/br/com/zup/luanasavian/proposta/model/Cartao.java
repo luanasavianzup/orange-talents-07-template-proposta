@@ -3,6 +3,8 @@ package br.com.zup.luanasavian.proposta.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
@@ -18,6 +20,10 @@ public class Cartao {
     @OneToOne
     @NotNull
     private Proposta proposta;
+
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private List<Biometria> biometria = new ArrayList<>();
+
 
     @Deprecated
     public Cartao() {
