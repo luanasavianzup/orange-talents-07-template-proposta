@@ -69,7 +69,7 @@ public class CartaoController {
         BloqueioCartao bloqueio = new BloqueioCartao(enderecoIp, userAgent, cartao);
 
         bloqueioRepository.save(bloqueio);
-        cartao.bloqueia();
+        cartao.bloqueiaLocal();
         cartaoRepository.save(cartao);
 
         return ResponseEntity.ok().build();

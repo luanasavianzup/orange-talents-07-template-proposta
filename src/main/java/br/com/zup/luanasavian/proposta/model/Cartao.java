@@ -24,6 +24,7 @@ public class Cartao {
     @OneToOne
     @NotNull
     private Proposta proposta;
+    @NotNull
     @Enumerated
     private StatusCartao status;
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
@@ -83,7 +84,11 @@ public class Cartao {
         return bloqueio;
     }
 
-    public void bloqueia(){
+    public void bloqueiaLocal() {
+        this.status = StatusCartao.EM_ESPERA;
+    }
+
+    public void bloqueio() {
         this.status = StatusCartao.BLOQUEADO;
     }
 }
