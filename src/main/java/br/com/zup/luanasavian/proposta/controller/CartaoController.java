@@ -25,7 +25,7 @@ public class CartaoController {
 
     @PostMapping("/{cartaoId}/biometrias")
     @Transactional
-    public ResponseEntity<?> post(@PathVariable String cartaoId, @RequestBody @Valid BiometriaFormRequest form, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> post(@PathVariable Long cartaoId, @RequestBody @Valid BiometriaFormRequest form, UriComponentsBuilder uriBuilder) {
         Optional<Cartao> cartaoOpt = cartaoRepository.findById(cartaoId);
         if (cartaoOpt.isEmpty()) return ResponseEntity.status(404).build();
 

@@ -12,7 +12,7 @@ public class BiometriaFormRequest {
     @NotBlank
     private String fingerprint;
 
-    public BiometriaFormRequest(@JsonProperty(value = "fingerPrint") String fingerprint){
+    public BiometriaFormRequest(@JsonProperty(value = "fingerprint") String fingerprint){
         this.fingerprint = fingerprint;
     }
 

@@ -9,7 +9,9 @@ import java.util.List;
 @Entity
 public class Cartao {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String numeroCartao;
     private LocalDateTime emitidoEm = LocalDateTime.now();
     private String titular;
     private Integer limite;
@@ -29,8 +31,8 @@ public class Cartao {
     public Cartao() {
     }
 
-    public Cartao(String id, LocalDateTime emitidoEm, String titular, Integer limite, Vencimento vencimento, Proposta proposta) {
-        this.id = id;
+    public Cartao(String numeroCartao, LocalDateTime emitidoEm, String titular, Integer limite, Vencimento vencimento, Proposta proposta) {
+        this.numeroCartao = numeroCartao;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
@@ -38,10 +40,9 @@ public class Cartao {
         this.proposta = proposta;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
-
     public LocalDateTime getEmitidoEm() {
         return emitidoEm;
     }
@@ -56,5 +57,9 @@ public class Cartao {
 
     public Vencimento getVencimento() {
         return vencimento;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
     }
 }
