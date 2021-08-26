@@ -7,15 +7,15 @@ import br.com.zup.luanasavian.proposta.model.Vencimento;
 import java.time.LocalDateTime;
 
 public class CartaoResponse {
-    private String numeroCartao;
+    private String id;
     private LocalDateTime emitidoEm;
     private String titular;
     private Integer limite;
     private VencimentoResponse vencimento;
     private String idProposta;
 
-    public CartaoResponse(String numeroCartao, LocalDateTime emitidoEm, String titular, Integer limite, VencimentoResponse vencimento, String idProposta) {
-        this.numeroCartao = numeroCartao;
+    public CartaoResponse(String id, LocalDateTime emitidoEm, String titular, Integer limite, VencimentoResponse vencimento, String idProposta) {
+        this.id = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
@@ -25,11 +25,11 @@ public class CartaoResponse {
 
     public Cartao toModel(Proposta proposta) {
         Vencimento vencimento = this.vencimento.toModel();
-        return new Cartao(numeroCartao, emitidoEm, titular, limite, vencimento, proposta);
+        return new Cartao(id, emitidoEm, titular, limite, vencimento, proposta);
     }
 
-    public String getNumeroCartao() {
-        return numeroCartao;
+    public String getId() {
+        return id;
     }
 
     public LocalDateTime getEmitidoEm() {

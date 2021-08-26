@@ -37,6 +37,7 @@ public class AnaliseFinanceira {
                 CartaoResponse response = cartaoClient.consultaCartao(proposta.getId().toString());
                 Cartao cartao = response.toModel(proposta);
                 cartaoRepository.save(cartao);
+                log.info("Cartão gerado " + cartao.getNumeroCartao());
                 proposta.adicionaCartao();
                 log.info("Vinculação concluída. Proposta: " + proposta.getId());
             } catch (FeignException ex) {
