@@ -25,4 +25,12 @@ public class AvisoViagemFormRequest {
     public AvisoViagem toModel(String origemIp, String userAgent, Cartao cartao){
         return new AvisoViagem(destino, validoAte, origemIp, userAgent, cartao);
     }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public LocalDate getValidoAte() {
+        return validoAte;
+    }
 }
