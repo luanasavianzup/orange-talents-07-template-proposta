@@ -1,5 +1,5 @@
 package br.com.zup.luanasavian.proposta.compartilhada;
 
 public enum TipoCarteira {
-    PAYPAL
+    PAYPAL, SAMSUNG_PAY
 }

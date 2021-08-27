@@ -39,7 +39,7 @@ public class CarteiraController {
             AssociaCarteiraFormRequest associa = new AssociaCarteiraFormRequest(form.getEmail(), form.getTipoCarteira());
             cartaoClient.associacaoCarteira(cartao.getNumeroCartao(), associa);
         }catch (FeignException e){
-            return ResponseEntity.status(e.status()).body("Associação de carteira não pôde ser realizada");
+            return ResponseEntity.status(e.status()).body("A associação de carteira falhou");
         }
 
         Carteira carteira = form.toModel(cartao);
