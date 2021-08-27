@@ -1,12 +1,15 @@
 package br.com.zup.luanasavian.proposta.controller;
 
 import br.com.zup.luanasavian.proposta.compartilhada.StatusCartao;
+import br.com.zup.luanasavian.proposta.model.AvisoViagem;
 import br.com.zup.luanasavian.proposta.model.Biometria;
 import br.com.zup.luanasavian.proposta.model.BloqueioCartao;
 import br.com.zup.luanasavian.proposta.model.Cartao;
+import br.com.zup.luanasavian.proposta.repository.AvisoViagemRepository;
 import br.com.zup.luanasavian.proposta.repository.BiometriaRepository;
 import br.com.zup.luanasavian.proposta.repository.BloqueioRepository;
 import br.com.zup.luanasavian.proposta.repository.CartaoRepository;
+import br.com.zup.luanasavian.proposta.request.AvisoViagemFormRequest;
 import br.com.zup.luanasavian.proposta.request.BiometriaFormRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,8 @@ public class CartaoController {
     private BiometriaRepository biometriaRepository;
     @Autowired
     private BloqueioRepository bloqueioRepository;
+    @Autowired
+    private AvisoViagemRepository avisoViagemRepository;
 
     @PostMapping("/{cartaoId}/biometrias")
     @Transactional
@@ -71,6 +76,28 @@ public class CartaoController {
         bloqueioRepository.save(bloqueio);
         cartao.bloqueiaLocal();
         cartaoRepository.save(cartao);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{idCartao}/avisos")
+    @Transactional
+    public ResponseEntity<?> post(@PathVariable Long idCartao, @RequestBody @Valid AvisoViagemFormRequest form, HttpServletRequest request) {
+        Optional<Cartao> cartaoOpt = cartaoRepository.findById(idCartao);
+
+        if (cartaoOpt.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Cartao cartao = cartaoOpt.get();
+
+        String userAgent = request.getHeader("User-Agent");
+        String origemIp = request.getHeader("X-FORWARDED-FOR");
+        if (origemIp == null) {
+            origemIp = request.getRemoteAddr();
+        }
+
+        AvisoViagem avisoViagem = form.toModel(origemIp,userAgent,cartao);
+        avisoViagemRepository.save(avisoViagem);
 
         return ResponseEntity.ok().build();
     }

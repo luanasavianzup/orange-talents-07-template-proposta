@@ -31,6 +31,8 @@ public class Cartao {
     private List<Biometria> biometria = new ArrayList<>();
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<BloqueioCartao> bloqueio = new ArrayList<>();
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private List<AvisoViagem> avisos = new ArrayList<>();
 
     @Deprecated
     public Cartao() {
@@ -82,6 +84,9 @@ public class Cartao {
     }
     public List<BloqueioCartao> getBloqueio() {
         return bloqueio;
+    }
+    public List<AvisoViagem> getAvisos() {
+        return avisos;
     }
 
     public void bloqueiaLocal() {
