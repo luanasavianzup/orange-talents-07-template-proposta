@@ -1,6 +1,7 @@
 package br.com.zup.luanasavian.proposta.model;
 
 import br.com.zup.luanasavian.proposta.compartilhada.StatusCartao;
+import br.com.zup.luanasavian.proposta.compartilhada.TipoCarteira;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -8,7 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Cartao {
@@ -33,6 +36,8 @@ public class Cartao {
     private List<BloqueioCartao> bloqueio = new ArrayList<>();
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
     private List<AvisoViagem> avisos = new ArrayList<>();
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private Set<Carteira> carteiras = new HashSet<>();
 
     @Deprecated
     public Cartao() {
@@ -82,12 +87,14 @@ public class Cartao {
     public List<Biometria> getBiometria() {
         return biometria;
     }
+
     public List<BloqueioCartao> getBloqueio() {
         return bloqueio;
     }
-    public List<AvisoViagem> getAvisos() {
-        return avisos;
-    }
+
+    public List<AvisoViagem> getAvisos() {return avisos;}
+
+    public Set<Carteira> getCarteiras() {return carteiras;}
 
     public void bloqueiaLocal() {
         this.status = StatusCartao.EM_ESPERA;
@@ -95,5 +102,10 @@ public class Cartao {
 
     public void bloqueio() {
         this.status = StatusCartao.BLOQUEADO;
+    }
+
+    public boolean associaCarteira(TipoCarteira tipoCarteira) {
+        if(this.carteiras.contains(tipoCarteira)) return true;
+        return false;
     }
 }

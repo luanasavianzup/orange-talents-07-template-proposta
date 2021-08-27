@@ -1,4 +1,4 @@
-package br.com.zup.luanasavian.proposta.model;
+package br.com.zup.luanasavian.proposta.request;
 
 import br.com.zup.luanasavian.proposta.request.AvisoViagemFormRequest;
 

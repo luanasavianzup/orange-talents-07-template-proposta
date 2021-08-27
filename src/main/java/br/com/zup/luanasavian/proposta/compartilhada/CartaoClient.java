@@ -1,6 +1,7 @@
 package br.com.zup.luanasavian.proposta.compartilhada;
 
-import br.com.zup.luanasavian.proposta.model.EnviaAvisoFormRequest;
+import br.com.zup.luanasavian.proposta.request.AssociaCarteiraFormRequest;
+import br.com.zup.luanasavian.proposta.request.EnviaAvisoFormRequest;
 import br.com.zup.luanasavian.proposta.request.BloqueioFormRequest;
 import br.com.zup.luanasavian.proposta.response.AvisoViagemResponse;
 import br.com.zup.luanasavian.proposta.response.BloqueioResponse;
@@ -20,4 +21,7 @@ public interface CartaoClient {
 
     @PostMapping("/api/cartoes/{id}/avisos")
     AvisoViagemResponse enviaAvisoViagem(@PathVariable String id, @RequestBody @Valid EnviaAvisoFormRequest form);
+
+    @PostMapping("/api/cartoes/{id}/carteiras")
+    CartaoResponse associacaoCarteira(@PathVariable String id, @RequestBody @Valid AssociaCarteiraFormRequest form);
 }

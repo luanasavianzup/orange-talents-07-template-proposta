@@ -9,6 +9,7 @@ import br.com.zup.luanasavian.proposta.repository.BloqueioRepository;
 import br.com.zup.luanasavian.proposta.repository.CartaoRepository;
 import br.com.zup.luanasavian.proposta.request.AvisoViagemFormRequest;
 import br.com.zup.luanasavian.proposta.request.BiometriaFormRequest;
+import br.com.zup.luanasavian.proposta.request.EnviaAvisoFormRequest;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
