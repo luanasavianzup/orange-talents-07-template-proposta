@@ -24,7 +24,7 @@ public class BloqueioCartaoLegado {
     private CartaoClient cartaoClient;
 
     @Scheduled(fixedDelay = 50000)
-    private void bloqueioCartoes() {
+    public void bloqueioCartoes() {
         BloqueioFormRequest form = new BloqueioFormRequest();
 
         List<Cartao> listaBloqueioEmEspera = cartaoRepository.findAllByStatus(StatusCartao.EM_ESPERA);
