@@ -1,6 +1,8 @@
 package br.com.zup.luanasavian.proposta.controller;
 
 import br.com.zup.luanasavian.proposta.compartilhada.AnalisePropostaService;
+import br.com.zup.luanasavian.proposta.compartilhada.Criptografia;
+import br.com.zup.luanasavian.proposta.compartilhada.DadoExistenteException;
 import br.com.zup.luanasavian.proposta.compartilhada.DevolutivaAnalise;
 import br.com.zup.luanasavian.proposta.model.Proposta;
 import br.com.zup.luanasavian.proposta.repository.PropostaRepository;
@@ -29,17 +31,19 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> post(@RequestBody @Valid PropostaFormRequest form, UriComponentsBuilder uriBuilder) {
-        Optional<Proposta> novaProposta = propostaRepository.findByDocumento(form.getDocumento());
-        if (novaProposta.isPresent()) return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Foi encontrada mais de uma proposta para o CPF ou CNPJ cadastrado!");
+        Proposta proposta = null;
 
-        Proposta proposta = form.toModel();
+        try {
+            proposta = form.toModel(propostaRepository);
+        } catch (DadoExistenteException e) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
         propostaRepository.save(proposta);
-
         DevolutivaAnalise devolutiva = analisePropostaService.avalia(proposta);
         proposta.novoEstado(devolutiva);
 
         URI uri = uriBuilder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
-
         return ResponseEntity.created(uri).build();
     }
 

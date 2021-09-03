@@ -1,6 +1,9 @@
 package br.com.zup.luanasavian.proposta.request;
 
+import br.com.zup.luanasavian.proposta.compartilhada.Criptografia;
+import br.com.zup.luanasavian.proposta.compartilhada.DadoExistenteException;
 import br.com.zup.luanasavian.proposta.model.Proposta;
+import br.com.zup.luanasavian.proposta.repository.PropostaRepository;
 import br.com.zup.luanasavian.proposta.validation.CpfOrCnpj;
 
 import javax.validation.constraints.Email;
@@ -33,7 +36,10 @@ public class PropostaFormRequest {
         this.salario = salario;
     }
 
-    public Proposta toModel() {
+    public Proposta toModel(PropostaRepository propostaRepository) throws DadoExistenteException {
+        String documentoHash = Criptografia.getInstance().getHash(documento);
+        if(propostaRepository.existsByDocumentoHash(documentoHash))
+             throw new DadoExistenteException("Já existe uma proposta para esse documento");
         return new Proposta(documento, email, nome, endereco, salario);
     }
 

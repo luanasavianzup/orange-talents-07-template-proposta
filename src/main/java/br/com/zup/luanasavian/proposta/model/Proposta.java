@@ -1,5 +1,6 @@
 package br.com.zup.luanasavian.proposta.model;
 
+import br.com.zup.luanasavian.proposta.compartilhada.Criptografia;
 import br.com.zup.luanasavian.proposta.compartilhada.DevolutivaAnalise;
 import br.com.zup.luanasavian.proposta.compartilhada.StatusProposta;
 
@@ -17,6 +18,8 @@ public class Proposta {
     private Long id;
     @NotBlank
     private String documento;
+    @NotBlank
+    private String documentoHash;
     @NotBlank
     @Email
     private String email;
@@ -37,6 +40,9 @@ public class Proposta {
     }
 
     public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+        Criptografia criptografia = Criptografia.getInstance();
+        this.documento = criptografia.criptografa(documento);
+        this.documentoHash = criptografia.getHash(documento);
         this.documento = documento;
         this.email = email;
         this.nome = nome;
@@ -49,7 +55,8 @@ public class Proposta {
     }
 
     public String getDocumento() {
-        return documento;
+        Criptografia criptografia = Criptografia.getInstance();
+        return criptografia.descriptografa(documento);
     }
 
     public String getEmail() {
